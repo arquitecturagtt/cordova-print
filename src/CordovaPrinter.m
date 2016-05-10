@@ -12,6 +12,7 @@
 #import "ZebraPrinterConnection.h"
 #import "MFiBtPrinterConnection.h"
 #import "ZebraPrinterFactory.h"
+#import "GraphicsUtil.h"
 #import "SGD.h"
 
 @implementation CordovaPrinter
@@ -19,6 +20,7 @@
 
     NSString *labelData = [command.arguments objectAtIndex:0];
     NSString *serielCode = [command.arguments objectAtIndex:1];
+    NSString *height = [command.arguments objectAtIndex:2];
 
     // Check command.arguments here.
     //Dispatch this task to the default queue
@@ -36,15 +38,28 @@
             //[SGD SET:@"ezpl.media_type" withValue:@"gap/notch" andWithPrinterConnection:thePrinterConn error:&error];
 
             // This example prints "This is a ZPL test." near the top of the label.
-            //NSString *zplData = @"^XA^FO20,20^A0N,25,25^FDThis is a ZPL test.^FS^XZ";
-
+            NSString *zplSetup = [[@"^XA^MNN,50^LL" stringByAppendingString:height] stringByAppendingString:@"^XZ^XA^JUS^XZ"];
 
             // Send the data to printer as a byte array.
-            NSData *data = [NSData dataWithBytes:[labelData UTF8String] length:[labelData length]];
+            NSData *dataSetup = [NSData dataWithBytes:[zplSetup UTF8String] length:[zplSetup length]];
+            //NSData *data = [NSData dataWithBytes:[labelData UTF8String] length:[labelData length]];
 
-            success = success && [thePrinterConn write:data error:&error];
+            //Obtenemos objeto printer
+            id<ZebraPrinter, NSObject> printer;
+            printer = [ZebraPrinterFactory getInstance:thePrinterConn error:&error];
 
-            [NSThread sleepForTimeInterval:2.0f];
+            //obtenermos graphicsUtil
+            id<GraphicsUtil, NSObject> graphicsUtil = [printer getGraphicsUtil];
+
+            NSData *imgData = [[NSData alloc]initWithBase64EncodedString:labelData options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            UIImage *ret = [UIImage imageWithData:imgData];
+
+            success = success && [thePrinterConn write:dataSetup error:&error];
+            //success = success && [thePrinterConn write:data error:&error];
+
+            success = [graphicsUtil printImage:[ret CGImage] atX:0 atY:0 withWidth:-1 withHeight:-1 andIsInsideFormat:NO error:&error];
+
+            [NSThread sleepForTimeInterval:5.0f];
 
             if (success == YES && error == nil) {
                 CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
@@ -61,7 +76,7 @@
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
 
-     });
+    });
 }
 //Returns all the connected printers.
 - (void) cordovaGetPrinters:(CDVInvokedUrlCommand *)command
