@@ -59,7 +59,7 @@
 
             success = [graphicsUtil printImage:[ret CGImage] atX:0 atY:0 withWidth:-1 withHeight:-1 andIsInsideFormat:NO error:&error];
 
-            [NSThread sleepForTimeInterval:5.0f];
+            [NSThread sleepForTimeInterval:20.0f];
 
             if (success == YES && error == nil) {
                 CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
