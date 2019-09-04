@@ -3,7 +3,7 @@
 This is a Cordova plugin that allows you to print to Zebra bluetooth printers using your iOS device.
 
 Installation:
-`cordova plugin add https://github.com/javiercno/cordova-print.git`
+`cordova plugin add https://github.com/gregorionet/cordova-print.git`
 
 **Get printer serial numbers: (Will return all connected zebra printers)**  
 `window.plugins.CordovaPrinter.getPrinters(successCallback(serialNumbers),failCallback(error))`  
