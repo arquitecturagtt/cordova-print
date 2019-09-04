@@ -1,0 +1,33 @@
+{
+  "name": "cordova-print",
+  "version": "0.0.1",
+  "description": "To get printers",
+  "cordova": {
+    "id": "cordova-plugin-android-idfa",
+    "platforms": [
+      "android",
+      "browser"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregorionet/cordova-print.git"
+  },
+  "keywords": [
+    "cordova",
+    "zebra",
+    "printer",
+    "bluetooth",
+    "print",
+    "android",
+    "install",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ]
+}
