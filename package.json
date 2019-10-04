@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "To get printers",
   "cordova": {
-    "id": "cordova-plugin-android-idfa",
+    "id": "cordova-print",
     "platforms": [
       "android",
       "browser"
