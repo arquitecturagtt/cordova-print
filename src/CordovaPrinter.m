@@ -1,11 +1,3 @@
-//
-//  CordovaPrinter.m
-//  HelloCordova
-//
-//  Created by Liam Bateman on 24/03/2015.
-//
-//
-
 #import "CordovaPrinter.h"
 #import <ExternalAccessory/ExternalAccessory.h>
 #import "MfiBtPrinterConnection.h"
@@ -35,14 +27,12 @@
         if(success)
         {
             NSError *error = nil;
-            //[SGD SET:@"ezpl.media_type" withValue:@"gap/notch" andWithPrinterConnection:thePrinterConn error:&error];
 
             // This example prints "This is a ZPL test." near the top of the label.
             NSString *zplSetup = [[@"^XA^MNN,50^LL" stringByAppendingString:height] stringByAppendingString:@"^XZ^XA^JUS^XZ"];
 
             // Send the data to printer as a byte array.
             NSData *dataSetup = [NSData dataWithBytes:[zplSetup UTF8String] length:[zplSetup length]];
-            //NSData *data = [NSData dataWithBytes:[labelData UTF8String] length:[labelData length]];
 
             //Obtenemos objeto printer
             id<ZebraPrinter, NSObject> printer;
@@ -55,8 +45,6 @@
             UIImage *ret = [UIImage imageWithData:imgData];
 
             success = success && [thePrinterConn write:dataSetup error:&error];
-            //success = success && [thePrinterConn write:data error:&error];
-
             success = [graphicsUtil printImage:[ret CGImage] atX:0 atY:0 withWidth:-1 withHeight:-1 andIsInsideFormat:NO error:&error];
 
             [NSThread sleepForTimeInterval:20.0f];
